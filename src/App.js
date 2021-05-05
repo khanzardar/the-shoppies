@@ -252,11 +252,16 @@ class Search extends React.Component {
       <div className="search">
         <h3 style={{ color: "purple" }}>Search for nominations:</h3>
         <img />
-        <input type="text" />
+        <input
+          type="text"
+          onKeyUp={(event) => {
+            this.props.onTextChange(event.target.value);
+          }}
+        />
         <a
           style={{
             "box-shadow": "-3px 5px",
-            padding: "0.6rem 1rem",
+            padding: "0.6rem",
             border: "3px solid",
             "font-weight": "600",
           }}
@@ -308,7 +313,7 @@ class Nomination extends React.Component {
 class App extends React.Component {
   constructor() {
     super();
-    this.state = { serverData: {} };
+    this.state = { serverData: {}, searchString: "" };
   }
   componentDidMount() {
     setTimeout(() => {
@@ -324,15 +329,24 @@ class App extends React.Component {
             <h2>{this.state.serverData.user.name}'s Nominations:</h2>
             {/* This is broken */}
             <Aggregate nominations={this.state.serverData.user.nominations} />
-            {this.state.serverData.user.nominations &&
-              this.state.serverData.user.nominations.map((nomination) => {
+            {this.state.serverData.user.nominations
+              .filter((nomination) => {
+                return nomination.Title.toLowerCase().includes(
+                  this.state.searchString.toLowerCase()
+                );
+              })
+              .map((nomination) => {
                 return <Nomination nomination={nomination} />;
               })}
           </div>
         ) : (
           <h2>Loading...</h2>
         )}
-        <Search />
+        <Search
+          onTextChange={(text) => {
+            this.setState({ searchString: text });
+          }}
+        />
         <h2>Results for "search-term"</h2>
         <Result />
         <Result />
