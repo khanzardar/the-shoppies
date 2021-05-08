@@ -1,58 +1,32 @@
 import "./App.css";
 import React from "react";
-import { buildQueries } from "@testing-library/dom";
+import Banner from "react-js-banner";
 
 let defaultStyle = {
   color: "blue",
 };
 
-let fakeServerData = {
+let defaultButtonStyle = {
+  "box-shadow": "-3px 5px",
+  padding: "0.6rem",
+  margin: "0.6rem",
+  border: "3px solid",
+  "font-weight": "600",
+};
+
+let defaultTextLinkStyle = {
+  "border-color": "rgb(178, 187, 240)",
+  "background-color": "transparent",
+  border: 0,
+  "border-bottom-width": "2px",
+  "border-style": "solid",
+  padding: "2px",
+};
+
+let fakeAPIFullData = {
   user: {
     name: "Zardar",
     nominations: [
-      {
-        Title: "Batman Begins",
-        Year: "2005",
-        Rated: "PG-13",
-        Released: "15 Jun 2005",
-        Runtime: "140 min",
-        Genre: "Action, Adventure",
-        Director: "Christopher Nolan",
-        Writer:
-          "Bob Kane (characters), David S. Goyer (story), Christopher Nolan (screenplay), David S. Goyer (screenplay)",
-        Actors: "Christian Bale, Michael Caine, Liam Neeson, Katie Holmes",
-        Plot:
-          "When his parents are killed, billionaire playboy Bruce Wayne relocates to Asia where he is mentored by Henri Ducard and Ra's Al Ghul in how to fight evil. When learning about the plan to wipe out evil in Gotham City by Ducard, Bruce prevents this plan from getting any further and heads back to his home. Back in his original surroundings, Bruce adopts the image of a bat to strike fear into the criminals and the corrupt as the icon known as 'Batman'. But it doesn't stay quiet for long.",
-        Language: "English, Mandarin",
-        Country: "USA, UK",
-        Awards: "Nominated for 1 Oscar. Another 13 wins & 78 nominations.",
-        Poster:
-          "https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-        Ratings: [
-          {
-            Source: "Internet Movie Database",
-            Value: "8.2/10",
-          },
-          {
-            Source: "Rotten Tomatoes",
-            Value: "84%",
-          },
-          {
-            Source: "Metacritic",
-            Value: "70/100",
-          },
-        ],
-        Metascore: "70",
-        imdbRating: "8.2",
-        imdbVotes: "1,327,215",
-        imdbID: "tt0372784",
-        Type: "movie",
-        DVD: "09 Sep 2009",
-        BoxOffice: "$206,852,432",
-        Production: "Warner Brothers, Di Bonaventura Pictures",
-        Website: "N/A",
-        Response: "True",
-      },
       {
         Title: "Harry Potter and the Deathly Hallows: Part 2",
         Year: "2011",
@@ -230,9 +204,103 @@ let fakeServerData = {
     ],
   },
 };
+// let fakeAPIFullData = {};
+let fakeAPIInitialPull = {
+  Search: [
+    {
+      Title: "Batman v Superman: Dawn of Justice",
+      Year: "2016",
+      imdbID: "tt2975590",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+    },
+    {
+      Title: "Justice League",
+      Year: "2017",
+      imdbID: "tt0974015",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BYWVhZjZkYTItOGIwYS00NmRkLWJlYjctMWM0ZjFmMDU4ZjEzXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg",
+    },
+    {
+      Title: "Zack Snyder's Justice League",
+      Year: "2021",
+      imdbID: "tt12361974",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_SX300.jpg",
+    },
+    {
+      Title: "Zack Snyder's Justice League",
+      Year: "2021",
+      imdbID: "tt12361974",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_SX300.jpg",
+    },
+    {
+      Title: "Zack Snyder's Justice League",
+      Year: "2021",
+      imdbID: "tt12361974",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_SX300.jpg",
+    },
+    {
+      Title: "Zack Snyder's Justice League",
+      Year: "2021",
+      imdbID: "tt12361974",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BYjI3NDg0ZTEtMDEwYS00YWMyLThjYjktMTNlM2NmYjc1OGRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_SX300.jpg",
+    },
+    {
+      Title: "Justice League: The Flashpoint Paradox",
+      Year: "2013",
+      imdbID: "tt2820466",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BMTgwNTljYzgtOTU3ZC00ZjhhLTk0YzItY2RiMWU0MGZlNzFjL2ltYWdlXkEyXkFqcGdeQXVyNDQ2MTMzODA@._V1_SX300.jpg",
+    },
+    {
+      Title: "Seeking Justice",
+      Year: "2011",
+      imdbID: "tt1214962",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BNzAxMzAyODEyMV5BMl5BanBnXkFtZTcwNjU3OTEzNw@@._V1_SX300.jpg",
+    },
+    {
+      Title: "Justice League: Doom",
+      Year: "2012",
+      imdbID: "tt2027128",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BOTFlMzdkMDgtNzJmZC00ZmE3LThkYzktNGZmNmMzZmNhYmY5XkEyXkFqcGdeQXVyNDYwMjI1MzI@._V1_SX300.jpg",
+    },
+    {
+      Title: "And Justice for All",
+      Year: "1979",
+      imdbID: "tt0078718",
+      Type: "movie",
+      Poster:
+        "https://m.media-amazon.com/images/M/MV5BMDk1MTljZjAtZDY5MC00YTAwLTk5MzEtZTMyMjI4YzRmZjcxXkEyXkFqcGdeQXVyNjUwNzk3NDc@._V1_SX300.jpg",
+    },
+  ],
+  totalResults: "1091",
+  Response: "True",
+};
 
 class Aggregate extends React.Component {
   render() {
+    if (this.props.nominations && this.props.nominations.length >= 5) {
+      return (
+        <div>
+          <Banner title="You have reached a max of 5 nominations" />
+        </div>
+      );
+    }
     return (
       <div>
         {
@@ -258,16 +326,7 @@ class Search extends React.Component {
             this.props.onTextChange(event.target.value);
           }}
         />
-        <a
-          style={{
-            "box-shadow": "-3px 5px",
-            padding: "0.6rem",
-            border: "3px solid",
-            "font-weight": "600",
-          }}
-        >
-          Search
-        </a>
+        <button style={defaultButtonStyle}>Search</button>
       </div>
     );
   }
@@ -275,10 +334,13 @@ class Search extends React.Component {
 
 class Result extends React.Component {
   render() {
+    let result = this.props.result;
     return (
       <div style={{ ...defaultStyle, display: "inline-block", width: "25%" }}>
-        <h4>Movie Name (####)</h4>
-        Nominate
+        <h4>
+          {result.Title} ({result.Year})
+        </h4>
+        <button style={defaultButtonStyle}>Nominate</button>
       </div>
     );
   }
@@ -303,8 +365,12 @@ class Nomination extends React.Component {
             );
           })}
         </ul>
-        Remove
-        <h5>Search for merchandise</h5>
+        <button style={defaultButtonStyle}>Remove</button>
+        <h5>
+          <a href="" style={defaultTextLinkStyle}>
+            Search for merchandise
+          </a>
+        </h5>
       </div>
     );
   }
@@ -313,34 +379,34 @@ class Nomination extends React.Component {
 class App extends React.Component {
   constructor() {
     super();
-    this.state = { serverData: {}, searchString: "" };
+    this.state = {
+      fullAPIServerData: {},
+      searchString: "",
+      initialAPIServerData: {},
+    };
   }
   componentDidMount() {
     setTimeout(() => {
-      this.setState({ serverData: fakeServerData });
+      this.setState({
+        fullAPIServerData: fakeAPIFullData,
+        initialAPIServerData: fakeAPIInitialPull,
+      });
     }, 1000);
   }
   render() {
     return (
       <div className="App">
         <h1 style={{ color: "greenyellow" }}>The Shoppies</h1>
-        {this.state.serverData.user ? (
+        {this.state.fullAPIServerData.user && (
           <div>
-            <h2>{this.state.serverData.user.name}'s Nominations:</h2>
-            {/* This is broken */}
-            <Aggregate nominations={this.state.serverData.user.nominations} />
-            {this.state.serverData.user.nominations
-              .filter((nomination) => {
-                return nomination.Title.toLowerCase().includes(
-                  this.state.searchString.toLowerCase()
-                );
-              })
-              .map((nomination) => {
-                return <Nomination nomination={nomination} />;
-              })}
+            <h2>{this.state.fullAPIServerData.user.name}'s Nominations:</h2>
+            <Aggregate
+              nominations={this.state.fullAPIServerData.user.nominations}
+            />
+            {this.state.fullAPIServerData.user.nominations.map((nomination) => {
+              return <Nomination nomination={nomination} />;
+            })}
           </div>
-        ) : (
-          <h2>Loading...</h2>
         )}
         <Search
           onTextChange={(text) => {
@@ -348,9 +414,16 @@ class App extends React.Component {
           }}
         />
         <h2>Results for "search-term"</h2>
-        <Result />
-        <Result />
-        <Result />
+        {/* if the initialAPIServerData Response attribute is True using &&  */}
+        {this.state.initialAPIServerData.Response ? (
+          <div>
+            {this.state.initialAPIServerData.Search.map((result) => {
+              return <Result result={result} />;
+            })}
+          </div>
+        ) : (
+          <h2>No results to show...</h2>
+        )}
       </div>
     );
   }
